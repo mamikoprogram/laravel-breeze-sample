@@ -60,3 +60,5 @@ ENV PATH $PATH:/composer/vendor/bin
 RUN composer global require "laravel/installer"
 
 RUN apt install -y iputils-ping telnet
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt install nodejs
