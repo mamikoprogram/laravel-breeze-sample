@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ThreadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/threads', function () {
-    return view('threads.index');
-})->name('threads');
+Route::get('/threads', [ThreadController::class, 'index'])->name('threads');
+
+Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
+Route::post('/threads/create', [ThreadController::class, 'create']);
