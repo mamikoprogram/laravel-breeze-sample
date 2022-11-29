@@ -32,7 +32,7 @@
                 @enderror
             </div>
             <div class="mt-4">
-                <button type="submit" class="bg-blue-500 rounded font-medium px-4 py-2 text-white">{{ __('Submit') }}</button>
+                <button type="submit" class="bg-red-500 rounded font-medium px-4 py-2 text-white">{{ __('Submit') }}</button>
             </div>
             </form>
         </div>
