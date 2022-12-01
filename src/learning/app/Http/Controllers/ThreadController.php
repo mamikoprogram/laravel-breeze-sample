@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ThreadController extends Controller
 {
@@ -18,8 +19,22 @@ class ThreadController extends Controller
 
     public function store(Request $request)
     {
-        dd([
-            $request->title,
-            $request->body]);
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string|max:512',
+
+        ]);
+        DB::transaction(function () use ($request) {
+            $thread = $request->user()->threads()->create([
+                'title' => $request->title,
+            ]);
+
+            $thread->comments()->create([
+                'body' => $request->body,
+                'user_id' => $request->user()->id
+            ]);
+        });
+
+        return back();
     }
 }
