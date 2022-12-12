@@ -1,1 +1,0 @@
-# laravel-breeze-sample

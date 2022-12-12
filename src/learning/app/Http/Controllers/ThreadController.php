@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +25,8 @@ class ThreadController extends Controller
             'body' => 'required|string|max:512',
 
         ]);
-        DB::transaction(function () use ($request) {
+
+        $thread = DB::transaction(function () use ($request) {
             $thread = $request->user()->threads()->create([
                 'title' => $request->title,
             ]);
@@ -33,8 +35,19 @@ class ThreadController extends Controller
                 'body' => $request->body,
                 'user_id' => $request->user()->id
             ]);
+
+            return $thread;
         });
 
-        return back();
+        return redirect()->route("threads.show", $thread);
+    }
+
+    public function show (Thread $thread)
+    {
+        $comments = $thread->comments()->with(['user'])->paginate(20);
+        return view('threads.show', [
+            'thread' => $thread,
+            'comments' => $comments
+        ]);
     }
 }

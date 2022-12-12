@@ -32,6 +32,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::get('/threads', [ThreadController::class, 'index'])->name('threads');
-
 Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
 Route::post('/threads/create', [ThreadController::class, 'store']);
+Route::get('/threads/{thread}', [ThreadController::class, 'show'])->name('threads.show');
