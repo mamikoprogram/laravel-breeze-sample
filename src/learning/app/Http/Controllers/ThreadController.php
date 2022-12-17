@@ -35,16 +35,18 @@ class ThreadController extends Controller
                 'body' => $request->body,
                 'user_id' => $request->user()->id
             ]);
-
-            return $thread;
+            // Object of type App\Models\Thread is not callable
+            // この辺がThread関数を呼び出せていない原因？
+            // トランザクションが上手くいっていない？？
+            return $thread();
         });
-
-        return redirect()->route("threads.show", $thread);
+        return redirect()->route("threads.show" . $thread);
     }
 
     public function show (Thread $thread)
     {
         $comments = $thread->comments()->with(['user'])->paginate(20);
+
         return view('threads.show', [
             'thread' => $thread,
             'comments' => $comments
