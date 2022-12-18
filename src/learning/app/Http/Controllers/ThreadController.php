@@ -10,7 +10,11 @@ class ThreadController extends Controller
 {
     public function index()
     {
-        return view('threads.index');
+        $threads = Thread::latest()->paginate(20);
+
+        return view('threads.index', [
+            'threads' => $threads
+        ]);
     }
 
     public function create()
@@ -35,12 +39,9 @@ class ThreadController extends Controller
                 'body' => $request->body,
                 'user_id' => $request->user()->id
             ]);
-            // Object of type App\Models\Thread is not callable
-            // この辺がThread関数を呼び出せていない原因？
-            // トランザクションが上手くいっていない？？
-            return $thread();
+            return $thread;
         });
-        return redirect()->route("threads.show" . $thread);
+        return redirect()->route("threads.show" , $thread);
     }
 
     public function show (Thread $thread)
