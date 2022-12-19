@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,18 @@ class CommentController extends Controller
             'user_id' => $request->user()->id
         ]);
 
+        return back();
+    }
+
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['store']);
+    }
+
+    public function destroy(Comment $comment)
+    {
+        $this->authorize('delete', $comment);
+        $comment->delete();
         return back();
     }
 }

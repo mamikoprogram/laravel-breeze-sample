@@ -53,4 +53,9 @@ class ThreadController extends Controller
             'comments' => $comments
         ]);
     }
+
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['create', 'store']);
+    }
 }
